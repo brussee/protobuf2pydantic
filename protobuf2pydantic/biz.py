@@ -78,8 +78,9 @@ def convert_field(level: int, field: FieldDescriptor) -> str:
 
 def msg2pydantic(level: int, msg: Descriptor) -> str:
     class_statement = f"{tab * level}class {msg.name}(BaseModel):"
+    class_docstring = f"{tab * (level + 1)}\"\"\"{msg.full_name}\"\"\""
     field_statements = map(partial(convert_field, level), msg.fields)
-    return linesep.join([class_statement, *field_statements])
+    return linesep.join([class_statement, class_docstring, *field_statements])
 
 
 def get_config(level: int):
